@@ -1,2 +1,2 @@
 # BIUProject2
-Second guideline at BIUProject.
+Second milestone at BIUProject.

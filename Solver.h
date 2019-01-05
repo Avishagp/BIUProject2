@@ -11,6 +11,7 @@ private:
 
 public:
     virtual T solveProblem(T2) = 0;
+    virtual ~Solver(){};
 };
 
 

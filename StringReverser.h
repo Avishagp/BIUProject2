@@ -16,8 +16,8 @@ public:
      * @param problem The string to reverse.
      * @return the reversed string.
      */
-    /*T2*/std::string solveProblem(/*T*/std::string problem) override {
-        /*T2*/std::string solution = problem;
+    virtual std::string solveProblem(const std::string problem) {
+        std::string solution = problem;
         std::reverse(solution.begin(),solution.end());
         return solution;
     }

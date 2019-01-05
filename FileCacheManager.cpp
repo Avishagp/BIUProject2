@@ -15,7 +15,7 @@ FileCacheManager::FileCacheManager(std::string path) {
  * @param solution - the solution to check.
  * @return Does the solution exist's in map;
  */
-bool FileCacheManager::isSolutionExists(std::string solution) {
+bool FileCacheManager::isSolutionExists(const std::string solution) {
     return (this->solutions.count(solution) > 0);
 }
 
@@ -24,7 +24,7 @@ bool FileCacheManager::isSolutionExists(std::string solution) {
  * @param problem A string representing the problem.
  * @return The solution.
  */
-std::string FileCacheManager::getSolution(std::string problem) {
+std::string FileCacheManager::getSolution(const std::string problem) {
     if (isSolutionExists(problem)) {
         return this->solutions.at(problem);
     } else {
@@ -37,11 +37,17 @@ std::string FileCacheManager::getSolution(std::string problem) {
  * @param problem save data.
  * @param solution save data.
  */
-void FileCacheManager::saveSolution(std::string problem, std::string solution) {
+void FileCacheManager::saveSolution(const std::string problem, const std::string solution) {
 
     /* Create file object. */
     ofstream dataFile;
     dataFile.open(this->filePath, std::ios_base::app);
+
+    /* Adding to map. */
+    std::pair<std::string, std::string> pairToAdd;
+    pairToAdd.first  = problem;
+    pairToAdd.second = solution;
+    this->solutions.insert(pairToAdd);
 
     /* Writing to file */
     dataFile << problem  << endl;
@@ -70,7 +76,10 @@ void FileCacheManager::loadAllSolutions() {
     while (std::getline(data, problem)) {
 
         std::getline(data, solution);
-        this->solutions.insert(problem,solution);
+        std::pair<std::string, std::string> pairToAdd;
+        pairToAdd.first  = problem;
+        pairToAdd.second = solution;
+        this->solutions.insert(pairToAdd);
     }
 
     data.close();

@@ -22,7 +22,7 @@ using namespace server_side;
 class MySerialServer : public Server {
 
 public:
-    virtual void open(int port, ClientHandler clientHandler);
+    virtual void open(int port, ClientHandler* clientHandler);
     virtual void stop();
 };
 

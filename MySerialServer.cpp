@@ -1,7 +1,7 @@
 
 #include "MySerialServer.h"
 
-void MySerialServer::open(int port, ClientHandler clientHandler) {
+void MySerialServer::open(int port, ClientHandler* clientHandler) {
     int sockfd, newsockfd, clilen;
 
     struct sockaddr_in serv_addr, cli_addr;

@@ -17,9 +17,9 @@ private:
     void loadAllSolutions();
 public:
     explicit FileCacheManager(std::string);
-    bool isSolutionExists(std::string) override;
-    std::string getSolution(std::string) override;
-    void saveSolution(std::string, std::string) override;
+    virtual bool isSolutionExists(std::string);
+    virtual std::string getSolution(std::string);
+    virtual void saveSolution(std::string, std::string);
 };
 
 

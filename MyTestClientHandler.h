@@ -5,13 +5,17 @@
 #include "ClientHandler.h"
 #include "Solver.h"
 #include "CacheManager.h"
+#include <string>
+#include <sstream>
+
+using namespace std;
 
 class MyTestClientHandler : public ClientHandler {
 private:
-    Solver *solver;
+    Solver<string, string> *solver;
     CacheManager *cacheManager;
 public:
-    MyTestClientHandler(Solver *solver1, CacheManager *cacheManager1) {
+    MyTestClientHandler(Solver<string, string> *solver1, CacheManager *cacheManager1) {
         solver = solver1;
         cacheManager = cacheManager1;
     }

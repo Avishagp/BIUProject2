@@ -4,9 +4,13 @@
 
 #include "string"
 
+template <class T, class T2>
 class Solver {
+
+private:
+
 public:
-    virtual std::string solveProblem(std::string problem) = 0;
+    virtual T solveProblem(T2) = 0;
 };
 
 

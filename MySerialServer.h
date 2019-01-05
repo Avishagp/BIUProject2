@@ -8,9 +8,10 @@
 using namespace server_side;
 
 class MySerialServer : public Server {
+
 public:
-    void open(int port, ClientHandler clientHandler) override;
-    void stop() override;
+    virtual void open(int port, ClientHandler clientHandler);
+    virtual void stop();
 };
 
 

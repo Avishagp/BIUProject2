@@ -1,7 +1,9 @@
 
 #include "MySerialServer.h"
 
-void MySerialServer::open(int port, ClientHandler* clientHandler) {
+void* MySerialServer::openServer(void* portNum) {
+    int* port = (int*)portNum;
+
     int sockfd, newsockfd, clilen;
 
     struct sockaddr_in serv_addr, cli_addr;
@@ -25,7 +27,7 @@ void MySerialServer::open(int port, ClientHandler* clientHandler) {
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons((uint16_t)((size_t)port));
+    serv_addr.sin_port = htons((uint16_t)((size_t)*port));
 
     /* Now bind the host address using bind() call.*/
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
@@ -33,23 +35,33 @@ void MySerialServer::open(int port, ClientHandler* clientHandler) {
         exit(1);
     }
 
-   /* Now start listening for the clients. */
+    /* Now start listening for the clients. */
 
-   while (true) {
-       listen(sockfd,5);
-       clilen = sizeof(cli_addr);
-   }
+    while (true) {
+        listen(sockfd,5);
+        clilen = sizeof(cli_addr);
 
-   ///* Accept actual connection from the client */
-   //newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
+        /* Accept actual connection from the client */
+        newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
+        if (newsockfd < 0) {
+            perror("ERROR on accept");
+            exit(1);
+        }
 
-   //if (newsockfd < 0) {
-   //    perror("ERROR on accept");
-   //    exit(1);
-   //}
+        /* If connection is established then start communicating. */
+
+
+    }
 
     /* Close socket. */
     close(newsockfd);
+}
+
+void MySerialServer::open(int port, ClientHandler clientHandler) {
+
+    /* Create thread that'll open a server and read from the client. */
+    pthread_t pthread;
+    pthread_create(&pthread, nullptr, MySerialServer::openServer, (void*)(&port));
 
 }
 

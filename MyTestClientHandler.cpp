@@ -12,7 +12,7 @@ void MyTestClientHandler::handleClient(int socketfd) {
 
         /* Read current line. */
         bzero(buffer, 1024);
-        n = read(socketfd, buffer, 1023);
+        n = (int)read(socketfd, buffer, 1023);
 
         current = buffer;
 
@@ -21,9 +21,9 @@ void MyTestClientHandler::handleClient(int socketfd) {
             exit(1);
         }
 
-        if (current == "end") {
+        if (current == "end" || current == "end\n" || current == "end\r\n") {
             /* Reading should end. */
-            isEndReached = true;
+            isEndReached = false;
         } else {
             bool isSolution = cacheManager->isSolutionExists(current);
             string solution;

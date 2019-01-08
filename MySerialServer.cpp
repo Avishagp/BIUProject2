@@ -50,7 +50,7 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
         }
 
         /* If connection is established then start communicating. */
-        clientHandler->handleClient(sockfd);
+        clientHandler->handleClient(newsockfd);
 
         //TODO: ADD STOP IF TIMEOUT
     }
@@ -65,7 +65,8 @@ void MySerialServer::open(int port, ClientHandler* clientHandler) {
 
     /* Create thread that'll open a server and read from the client. */
     pthread_t pthread;
-    pthread_create(&pthread, nullptr, MySerialServer::openServer, (void*)(&argumentsForOpenServer));
+    pthread_create(&pthread, nullptr, MySerialServer::openServer, (void*)(argumentsForOpenServer));
+
 
 }
 

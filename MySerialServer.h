@@ -16,6 +16,7 @@
 #include <sstream>
 #include "Server.h"
 #include "ClientHandler.h"
+#include "ArgumentsForOpenServer.h"
 
 using namespace server_side;
 
@@ -23,7 +24,7 @@ class MySerialServer : public Server {
 public:
     virtual void open(int port, ClientHandler* clientHandler);
     virtual void stop();
-    static void *openServer(void* portNum);
+    static void *openServer(void* argumentsForOpenServer);
 };
 
 

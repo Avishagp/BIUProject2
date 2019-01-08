@@ -1,8 +1,9 @@
 
 #include "MySerialServer.h"
 
-void* MySerialServer::openServer(void* portNum) {
-    int* port = (int*)portNum;
+void* MySerialServer::openServer(void* argumentsForOpenServer) {
+    int port = ((ArgumentsForOpenServer*)argumentsForOpenServer)->getPortNum();
+    ClientHandler *clientHandler = ((ArgumentsForOpenServer*)argumentsForOpenServer)->getClientHandler();
 
     int sockfd, newsockfd, clilen;
 
@@ -27,7 +28,7 @@ void* MySerialServer::openServer(void* portNum) {
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons((uint16_t)((size_t)*port));
+    serv_addr.sin_port = htons((uint16_t)((size_t)port));
 
     /* Now bind the host address using bind() call.*/
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
@@ -49,19 +50,22 @@ void* MySerialServer::openServer(void* portNum) {
         }
 
         /* If connection is established then start communicating. */
+        clientHandler->handleClient(sockfd);
 
-
+        //TODO: ADD STOP IF TIMEOUT
     }
 
     /* Close socket. */
     close(newsockfd);
 }
 
-void MySerialServer::open(int port, ClientHandler clientHandler) {
+void MySerialServer::open(int port, ClientHandler* clientHandler) {
+
+    auto argumentsForOpenServer = new ArgumentsForOpenServer(port, clientHandler);
 
     /* Create thread that'll open a server and read from the client. */
     pthread_t pthread;
-    pthread_create(&pthread, nullptr, MySerialServer::openServer, (void*)(&port));
+    pthread_create(&pthread, nullptr, MySerialServer::openServer, (void*)(&argumentsForOpenServer));
 
 }
 

@@ -1,18 +1,29 @@
 
 #include "MyTestClientHandler.h"
 
-void MyTestClientHandler::handleClient(stringstream input, stringstream output) {
-    /* Read from input stream line by line until isEndReached is false ("end" line reached). */
+void MyTestClientHandler::handleClient(int socketfd) {
+    /* Read from server line by line until isEndReached is false ("end" line reached). */
     bool isEndReached = true;
     string current;
+    char buffer[1024];
+    int n;
 
     while (isEndReached) {
-        /* Read current line. */
-        getline(input, current);
 
-        if (current == "end") {
+        /* Read current line. */
+        bzero(buffer, 1024);
+        n = (int)read(socketfd, buffer, 1023);
+
+        current = buffer;
+
+        if (n < 0) {
+            perror("ERROR reading from socket");
+            exit(1);
+        }
+
+        if (current == "end" || current == "end\n" || current == "end\r\n") {
             /* Reading should end. */
-            isEndReached = true;
+            isEndReached = false;
         } else {
             bool isSolution = cacheManager->isSolutionExists(current);
             string solution;
@@ -26,10 +37,15 @@ void MyTestClientHandler::handleClient(stringstream input, stringstream output) 
                 cacheManager->saveSolution(current, solution);
             }
 
-            /* Write solution to the output stream (client).
+            /* Write solution to the client.
              * Flush is used so that the output will be flushed instantly - changes will be written to
              * memory. */
-            output << solution << flush;
+            n = write(socketfd, solution.c_str(), (int)(solution.length()));
+
+            if (n < 0) {
+                perror("ERROR writing to socket");
+                exit(1);
+            }
         }
     }
 }

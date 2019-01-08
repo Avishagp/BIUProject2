@@ -7,6 +7,8 @@
 #include "CacheManager.h"
 #include <string>
 #include <sstream>
+#include <strings.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -19,7 +21,7 @@ public:
         solver = solver1;
         cacheManager = cacheManager1;
     }
-    void handleClient(std::stringstream input, std::stringstream output) override;
+    void handleClient(int socketfd) override;
 };
 
 

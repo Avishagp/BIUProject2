@@ -12,7 +12,7 @@ public:
      * @param input
      * @param output
      */
-    virtual void handleClient(std::stringstream input, std::stringstream output) = 0;
+    virtual void handleClient(int socketfd) = 0;
 };
 
 

@@ -9,6 +9,7 @@ private:
     T state;
     double cost;
     State<T> cameFrom;
+    bool visited;
 
 public:
 
@@ -46,6 +47,10 @@ public:
         this->cameFrom = prev;
     }
 
+    void setVisited(bool val) {
+        this->visited = val;
+    }
+
     //// GETTERS
 
     T getState() const {
@@ -58,6 +63,10 @@ public:
 
     const State<T> &getCameFrom() const {
         return this->cameFrom;
+    }
+
+    bool getVisited() {
+        return this->visited;
     }
 };
 

@@ -25,5 +25,4 @@ private:
     }
 };
 
-
 #endif //BIUPROJECT2_PQSEARCHER_H

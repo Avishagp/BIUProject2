@@ -1,15 +1,8 @@
 
+
 #include "SearchableMatrix.h"
 
-SearchableMatrix::SearchableMatrix(int* mat, State<std::pair<int, int>> src, State<std::pair<int, int>> dst) {
-    this->start = src;
-    this->goal = dst;
-    this->matrix = mat;
-}
 
-SearchableMatrix::SearchableMatrix(int* mat) {
-    this->matrix = mat;
-}
 
 
 State<std::pair<int, int>> SearchableMatrix::getInitialState() {
@@ -22,4 +15,23 @@ State<std::pair<int, int>> SearchableMatrix::getGoalState() {
 
 std::vector<State<std::pair<int, int>>> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>> s) {
     return std::vector<State<std::pair<int, int>>>();
+}
+
+void SearchableMatrix::addRowToMaze(std::string newRow) {
+
+    std::vector<int> rowToAdd;
+
+    /* A stream to parse with. */
+    std::stringstream lineParser;
+    lineParser.str(newRow);
+
+    /* Splitting the date to elements. */
+    while (lineParser.good()) {
+        std::string temp;
+        std::getline(lineParser, temp, ',');
+        rowToAdd.push_back(std::stoi(temp));
+    }
+
+    lineParser.clear();
+    this->mazeMatrix.push_back(rowToAdd);
 }

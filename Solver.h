@@ -4,13 +4,13 @@
 
 #include "string"
 
-template <class T, class T2>
+template <class P, class S>
 class Solver {
 
 private:
 
 public:
-    virtual T solveProblem(T2) = 0;
+    virtual S solveProblem(P) = 0;
     virtual ~Solver(){};
 };
 

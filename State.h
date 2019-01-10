@@ -7,7 +7,7 @@ class State {
 
 private:
     T state;
-    int cost;
+    double cost;
     State<T> cameFrom;
 
 public:

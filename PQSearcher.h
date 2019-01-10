@@ -4,13 +4,14 @@
 
 #include <set>
 #include <queue>
+#include "StateComparatorLesser.h"
 #include "State.h"
 #include "ISearcher.h"
 
 template <class P, class S>
 class PQSearcher : public ISearcher<P,S> {
 private:
-    std::priority_queue<State<P>> priorityQueue;
+    std::set<State<P>,StateComparatorLesser<P>> stateSet;
     int numberOfNodesEvaluated;
 public:
     PQSearcher() { this->numberOfNodesEvaluated = 0; }

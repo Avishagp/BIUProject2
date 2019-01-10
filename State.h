@@ -52,17 +52,25 @@ public:
         return this->state;
     }
 
-    int getCost() const {
+    double getCost() const {
         return this->cost;
-    }
-
-    const State<T> &getCameFrom() const {
-        return this->cameFrom;
     }
 
     bool getVisited() {
         return this->visited;
     }
+
+    State<T> *getCameFrom() const {
+        return cameFrom;
+    }
+
+    bool isVisited() const {
+        return visited;
+    }
+
+    //// DESTRUCTOR
+
+    ~State(){};
 };
 
 

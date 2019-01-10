@@ -48,7 +48,6 @@ SearchableMatrix::SearchableMatrix(std::string maze) {
         j = 0;
         this->stateMatrix.push_back(stateRow);
     }
-    i = 0;
 
     this->start = this->stateMatrix.at(0).at(0);
     this->goal  = this->stateMatrix.at(i-1).at(i-1);
@@ -68,7 +67,7 @@ std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(
     unsigned int current_j = (unsigned int)s.getState().second;
 
     //todo check we dont go to prev.
-    State<std::pair<int, int>> prev = s.getCameFrom();
+//    State<std::pair<int, int>> prev = s.getCameFrom();
 
 
     /* Add Down. */
@@ -121,10 +120,24 @@ void SearchableMatrix::addRowToMaze(std::string newRow) {
     this->mazeMatrix.push_back(rowToAdd);
 }
 
-State<std::pair<int, int>> *SearchableMatrix::getGoal() const {
-    return goal;
+State<std::pair<int, int>> *SearchableMatrix::getInitialState() {
+    return this->start;
 }
 
-State<std::pair<int, int>> *SearchableMatrix::getStart() const {
-    return start;
+State<std::pair<int, int>> *SearchableMatrix::getGoalState() {
+    return this->goal;
+}
+
+SearchableMatrix::~SearchableMatrix() {
+
+
+    auto it1 = this->stateMatrix.begin();
+    for (; it1 != this->stateMatrix.end(); ++it1) {
+
+        auto it2 = it1->begin();
+        for (; it2 != it1->end(); ++it2) {
+            delete(*it2);
+        }
+    }
+
 }

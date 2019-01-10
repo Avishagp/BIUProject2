@@ -21,9 +21,14 @@ private:
 public:
     SearchableMatrix(std::string);
     void addRowToMaze(std::string);
-    State<std::pair<int, int>> *getGoal() const;
-    State<std::pair<int, int>> *getStart() const;
+
+public:
+    State<std::pair<int, int>> *getInitialState() override;
+    State<std::pair<int, int>> *getGoalState() override;
     std::vector<State<std::pair<int, int>>*> getAllPossibleStates(State<std::pair<int, int>> s) override;
+
+
+    ~SearchableMatrix() override;
 };
 
 

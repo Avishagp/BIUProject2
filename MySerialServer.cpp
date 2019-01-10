@@ -42,21 +42,31 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
         listen(sockfd,5);
         clilen = sizeof(cli_addr);
 
+        timeval timeout;
+        timeout.tv_sec = 10;
+        timeout.tv_usec = 0;
+
+        setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+
         /* Accept actual connection from the client */
         newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
         if (newsockfd < 0) {
-            perror("ERROR on accept");
-            exit(1);
+            if (errno == EWOULDBLOCK)	{
+                std::cout << "timeout!" << std::endl;
+                break;
+            } else {
+                perror("ERROR on accept");
+                exit(1);
+            }
         }
 
         /* If connection is established then start communicating. */
         clientHandler->handleClient(newsockfd);
-
-        //TODO: ADD STOP IF TIMEOUT
     }
 
     /* Close socket. */
     close(newsockfd);
+    return nullptr;
 }
 
 void MySerialServer::open(int port, ClientHandler* clientHandler) {

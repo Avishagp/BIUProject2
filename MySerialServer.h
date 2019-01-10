@@ -3,6 +3,7 @@
 #define BIUPROJECT2_MYSERIALSERVER_H
 
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <pthread.h>
 #include <netdb.h>

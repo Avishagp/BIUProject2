@@ -5,6 +5,8 @@
 
 SearchableMatrix::SearchableMatrix(std::string maze) {
 
+    //// Build mazeMatrix
+
     /* A stream to parse with. */
     std::stringstream linesParser;
     std::stringstream lineParser;
@@ -30,19 +32,32 @@ SearchableMatrix::SearchableMatrix(std::string maze) {
             this->mazeMatrix.push_back(rowToAdd);
         }
     }
+
+    //// Build stateMatrix
+    unsigned int i = 0, j = 0;
+    auto it1 = this->mazeMatrix.begin();
+    for (; it1 != this->mazeMatrix.end(); ++it1) {
+        std::vector<State<std::pair<int,int>>*> stateRow;
+        auto it2 = it1->begin();
+        for (; it2 != it1->end(); ++it2) {
+            std::pair<int,int> insertPair(i,j);
+            stateRow.push_back(new State<std::pair<int,int>>(insertPair, -1.0, nullptr));
+            ++j;
+        }
+        ++i;
+        j = 0;
+        this->stateMatrix.push_back(stateRow);
+    }
+    i = 0;
+
+    this->start = this->stateMatrix.at(0).at(0);
+    this->goal  = this->stateMatrix.at(i-1).at(i-1);
+
 }
 
-State<std::pair<int, int>> SearchableMatrix::getInitialState() {
-    return this->start;
-}
+std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>> s) {
 
-State<std::pair<int, int>> SearchableMatrix::getGoalState() {
-    return this->goal;
-}
-
-std::vector<State<std::pair<int, int>>> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>> s) {
-
-    std::vector<State<std::pair<int, int>>> result;
+    std::vector<State<std::pair<int, int>>*> result;
 
     /* Get matrix bounds. */
     int number_of_rows = this->mazeMatrix.at(0).size();
@@ -104,4 +119,12 @@ void SearchableMatrix::addRowToMaze(std::string newRow) {
 
     lineParser.clear();
     this->mazeMatrix.push_back(rowToAdd);
+}
+
+State<std::pair<int, int>> *SearchableMatrix::getGoal() const {
+    return goal;
+}
+
+State<std::pair<int, int>> *SearchableMatrix::getStart() const {
+    return start;
 }

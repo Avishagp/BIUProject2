@@ -13,17 +13,17 @@ private:
 
     //// MEMBERS
 
-    std::vector<std::vector<State<std::pair<int,int>>>> stateMatrix;
+    std::vector<std::vector<State<std::pair<int,int>>*>> stateMatrix;
     std::vector<std::vector<int>> mazeMatrix;
-    State<std::pair<int, int>> goal;
-    State<std::pair<int, int>> start;
+    State<std::pair<int, int>>* goal;
+    State<std::pair<int, int>>* start;
 
 public:
     SearchableMatrix(std::string);
     void addRowToMaze(std::string);
-    State<std::pair<int, int>> getInitialState() override;
-    State<std::pair<int, int>> getGoalState() override;
-    std::vector<State<std::pair<int, int>>> getAllPossibleStates(State<std::pair<int, int>> s) override;
+    State<std::pair<int, int>> *getGoal() const;
+    State<std::pair<int, int>> *getStart() const;
+    std::vector<State<std::pair<int, int>>*> getAllPossibleStates(State<std::pair<int, int>> s) override;
 };
 
 

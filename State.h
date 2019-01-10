@@ -8,23 +8,18 @@ class State {
 private:
     T state;
     double cost;
-    State<T> cameFrom;
+    State<T>* cameFrom;
     bool visited;
 
 public:
 
     //// CONSTRUCTORS
 
-    State(){}
-
-    State(T status) {
-        this->state = status;
-    }
-
-    State (T status, int costTo, State<T> &prev) {
+    State (T status, double costTo, State<T>* prev) {
         this->state    = status;
         this->cost     = costTo;
         this->cameFrom = prev;
+        this->visited  = false;
     }
 
     //// CHECKERS

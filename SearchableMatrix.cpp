@@ -41,7 +41,8 @@ SearchableMatrix::SearchableMatrix(std::string maze) {
         auto it2 = it1->begin();
         for (; it2 != it1->end(); ++it2) {
             std::pair<int,int> insertPair(i,j);
-            stateRow.push_back(new State<std::pair<int,int>>(insertPair, -1.0, nullptr));
+            double insertCost = this->mazeMatrix.at(i).at(j);
+            stateRow.push_back(new State<std::pair<int,int>>(insertPair, insertCost, nullptr));
             ++j;
         }
         ++i;

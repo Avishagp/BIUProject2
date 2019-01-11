@@ -60,7 +60,7 @@ public:
         return this->visited;
     }
 
-    State<T> *getCameFrom() const {
+    State<T>* getCameFrom() const {
         return cameFrom;
     }
 

@@ -11,21 +11,15 @@
 template <class P, class S>
 class PQSearcher : public ISearcher<P,S> {
 private:
-    std::set<State<P>*,StateComparatorLesser<P>> stateSet;
+    std::set<State<P>,StateComparatorLesser<P>> stateSet;
     int numberOfNodesEvaluated;
-
 public:
-
     PQSearcher() { this->numberOfNodesEvaluated = 0; }
-
     int PriorityQueueSize() {
         return this->priorityQueue.size();
     }
-
-    virtual S search(ISearchable<P>* searchable) = 0;
-
 private:
-
+    virtual S search(ISearchable<P> searchable) = 0;
     int getNumberOfNodesEvaluated() override {
         return this->numberOfNodesEvaluated;
     }

@@ -67,35 +67,55 @@ std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(
     unsigned int current_i = (unsigned int)s->getState().first;
     unsigned int current_j = (unsigned int)s->getState().second;
 
-    //todo check we dont go to prev.
-//    State<std::pair<int, int>> prev = s.getCameFrom();
+    /* Get previous State state if exist's. */
+    std::pair<int, int> prevStatePos;
+    bool isPrev = false;
+    if (s->getCameFrom() != nullptr) {
+        prevStatePos = s->getCameFrom()->getState();
+    } else {
+        isPrev = true;
+    }
 
+    /*
+     * Adding to vector if:
+     * 1- There is a State in this direction (Not out of bounds)
+     * 2- The State we go to is not -1 (inf.)
+     * 3- The State we go to is not the previous one.
+    */
 
-    /* Add Down. */
-    if (current_i != 0 ) {
-        if (this->mazeMatrix.at(current_i - 1).at(current_j) != -1 ) {
-            result.push_back(this->stateMatrix.at(current_i-1).at(current_j));
+    /* Add Up. */
+    if (current_i != 0) {
+        if (this->mazeMatrix.at(current_i - 1).at(current_j) != -1) {
+            if (isPrev || (this->stateMatrix.at(current_i-1).at(current_j)->getState() != prevStatePos)) {
+                result.push_back(this->stateMatrix.at(current_i-1).at(current_j));
+            }
         }
     }
 
-    /* Add Up. */
+    /* Add Down. */
     if (current_i != (number_of_cols - 1)) {
         if (this->mazeMatrix.at(current_i + 1).at(current_j) != -1 ) {
-            result.push_back(this->stateMatrix.at(current_i+1).at(current_j));
+            if (isPrev || (this->stateMatrix.at(current_i+1).at(current_j)->getState() != prevStatePos)) {
+                result.push_back(this->stateMatrix.at(current_i+1).at(current_j));
+            }
         }
     }
 
     /* Add Left. */
-    if (current_j != 0) {
+    if (current_j != 0 && ((current_i != prevStatePos.first) || (current_j-1 != prevStatePos.second))) {
         if (this->mazeMatrix.at(current_i).at(current_j - 1) != -1 ) {
-            result.push_back(this->stateMatrix.at(current_i).at(current_j-1));
+            if (isPrev ||  (this->stateMatrix.at(current_i).at(current_j-1)->getState() != prevStatePos)) {
+                result.push_back(this->stateMatrix.at(current_i).at(current_j-1));
+            }
         }
     }
 
     /* Add Right. */
     if (current_j != (number_of_rows - 1)) {
         if (this->mazeMatrix.at(current_i).at(current_j + 1) != -1 ) {
-            result.push_back(this->stateMatrix.at(current_i).at(current_j+1));
+            if (isPrev || (this->stateMatrix.at(current_i).at(current_j+1)->getState() != prevStatePos)) {
+                result.push_back(this->stateMatrix.at(current_i).at(current_j+1));
+            }
         }
     }
 

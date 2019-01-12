@@ -12,7 +12,7 @@ template <class P, class S>
 class PQSearcher : public ISearcher<P,S> {
 public:
     //std::set<State<P>*,StateComparatorLesser<P>> openList;
-    std::set<State<P>*,bool (*)(State<P>* a, State<P>* b)> stateSet;
+    std::multiset<State<P>*,bool (*)(State<P>* a, State<P>* b)> stateSet;
     int numberOfNodesEvaluated;
 
     PQSearcher(bool (*cmp_func)(State<P>* a, State<P>* b)) : numberOfNodesEvaluated(0), stateSet(cmp_func){}

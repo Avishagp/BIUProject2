@@ -3,11 +3,13 @@
 #define BIUPROJECT2_BESTFIRSTSEARCH_H
 
 #include <algorithm>
+#include <map>
 #include "PQSearcher.h"
 
 template <class P, class S>
 class BestFirstSearch : public PQSearcher<P,S> {
 private:
+
 public:
 
     BestFirstSearch() : PQSearcher <P,S> (BestFirstSearch::Compare){}
@@ -16,10 +18,27 @@ public:
         return a->getCost() < b->getCost();
     }
 
+    typename std::set<State<P>*,StateComparatorLesser<P>>::iterator findInSet (State<P>* find) {
+
+        typename std::set<State<P>*,StateComparatorLesser<P>>::iterator is_in_open;
+        auto eqr = this->stateSet.equal_range(find);
+        auto it = eqr.first;
+
+        for (; it != eqr.second; ++it) {
+
+            if ((*it)->getState() == find->getState()) {
+                return it;
+            }
+        }
+
+        return this->stateSet.end();
+    }
+
     S search(ISearchable<P>* searchable) override {
 
         /* Closed list */
         std::vector<State<P>*> closeSet;
+        std::map<State<P>*,int> closeMap;
 
         /* Open list */
         searchable->getInitialState()->setVisited(true);
@@ -41,7 +60,8 @@ public:
                 current->setVisited(true);
             }
             this->stateSet.erase(current);
-            closeSet.push_back(current);
+            closeMap.insert({current,0});
+            //closeSet.push_back(current);
 
             /* If we got to goal, stop. */
             if (current->Equals(searchable->getGoalState())) {
@@ -51,19 +71,22 @@ public:
             /* Get all successors. */
             std::vector<State<P>*> successors = searchable->getAllPossibleStates(current);
 
-            typename std::vector<State<P>*>::iterator it;
-            it = successors.begin();
+            typename std::vector<State<P>*>::iterator it = successors.begin();
             for (; it != successors.end(); ++it) {
 
-                this->numberOfNodesEvaluated++;
-
                 /* Check if successor is in closed/open vectors. */
-                typename std::vector<State<P>*>::iterator is_in_closed = std::find(closeSet.begin(), closeSet.end(), (*it));
-                typename std::set<State<P>*,StateComparatorLesser<P>>::iterator is_in_open = this->stateSet.find((*it));
-                if ((is_in_closed == closeSet.end()) && (is_in_open == this->stateSet.end()) ) {
-                    /* successor is not in closed and not in open vector:
-                    * Update State and add to open. */
+                //typename std::vector<State<P>*>::iterator is_in_closed = std::find(closeSet.begin(), closeSet.end(), (*it));
+                int is_in_map = (unsigned int) closeMap.count((*it));
+                typename std::set<State<P>*,StateComparatorLesser<P>>::iterator is_in_open = this->findInSet((*it)); //this->stateSet.find((*it));
+
+
+                if (/*(is_in_closed == closeSet.end()*/(is_in_map == 0 ) && (is_in_open == this->stateSet.end())) {
+                    /* successor is not in closed and not in open vector. */
+
+                    /* Update State and add to open. */
+                    this->numberOfNodesEvaluated++;
                     (*it)->setCameFrom(current);
+                    (*it)->setVisited(true);
                     (*it)->setCost((*it)->getCost() + current->getCost());
                     this->stateSet.insert((*it));
 

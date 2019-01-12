@@ -171,3 +171,4 @@ SearchableMatrix::~SearchableMatrix() {
     }
 
 }
+

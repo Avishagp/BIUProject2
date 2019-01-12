@@ -50,6 +50,7 @@ public:
             /* If we got to goal, stop. */
             if (current->Equals(searchable->getGoalState())) {
                 //TODO Backtrack to get path and return.
+                std::string result ;
                 return current;
             }
 
@@ -96,12 +97,11 @@ public:
 
                     }
                 }
-
             }
-
         }
-        return "Done";
+        return nullptr;
     }
+
 };
 
 

@@ -24,8 +24,8 @@ public:
 
     //// CHECKERS
 
-    bool Equals(State<T> s) {
-        return this->state == (s.state);
+    bool Equals(State<T>* s) {
+        return this->state == (s->state);
     }
 
     //// SETTERS
@@ -34,11 +34,11 @@ public:
         this->state = status;
     }
 
-    void setCost(int costTo) {
+    void setCost(double costTo) {
         this->cost = costTo;
     }
 
-    void setCameFrom(const State<T> &prev) {
+    void setCameFrom(State<T>* prev) {
         this->cameFrom = prev;
     }
 
@@ -56,12 +56,12 @@ public:
         return this->cost;
     }
 
-    bool getVisited() {
-        return this->visited;
-    }
-
     State<T>* getCameFrom() const {
         return cameFrom;
+    }
+
+    bool getVisited() const {
+        return this->visited;
     }
 
     bool isVisited() const {

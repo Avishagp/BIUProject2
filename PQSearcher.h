@@ -10,13 +10,12 @@
 
 template <class P, class S>
 class PQSearcher : public ISearcher<P,S> {
-private:
-    std::set<State<P>*,StateComparatorLesser<P>> stateSet;
+public:
+    //std::set<State<P>*,StateComparatorLesser<P>> openList;
+    std::set<State<P>*,bool (*)(State<P>* a, State<P>* b)> stateSet;
     int numberOfNodesEvaluated;
 
-public:
-
-    PQSearcher() { this->numberOfNodesEvaluated = 0; }
+    PQSearcher(bool (*cmp_func)(State<P>* a, State<P>* b)) : numberOfNodesEvaluated(0), stateSet(cmp_func){}
 
     int PriorityQueueSize() {
         return this->priorityQueue.size();
@@ -24,11 +23,10 @@ public:
 
     virtual S search(ISearchable<P>* searchable) = 0;
 
-private:
-
     int getNumberOfNodesEvaluated() override {
         return this->numberOfNodesEvaluated;
     }
+
 };
 
 #endif //BIUPROJECT2_PQSEARCHER_H

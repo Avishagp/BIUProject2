@@ -6,6 +6,7 @@
 
 template <class P, class S>
 class ISearcher {
+public:
     virtual S search(ISearchable<P>* searchable) = 0;
     virtual int getNumberOfNodesEvaluated() = 0;
 };

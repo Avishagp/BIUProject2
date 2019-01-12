@@ -55,7 +55,7 @@ SearchableMatrix::SearchableMatrix(std::string maze) {
 
 }
 
-std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>> s) {
+std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>>* s) {
 
     std::vector<State<std::pair<int, int>>*> result;
 
@@ -64,8 +64,8 @@ std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(
     int number_of_cols = this->mazeMatrix.size();
 
     /* Get current position. */
-    unsigned int current_i = (unsigned int)s.getState().first;
-    unsigned int current_j = (unsigned int)s.getState().second;
+    unsigned int current_i = (unsigned int)s->getState().first;
+    unsigned int current_j = (unsigned int)s->getState().second;
 
     //todo check we dont go to prev.
 //    State<std::pair<int, int>> prev = s.getCameFrom();

@@ -18,22 +18,6 @@ public:
         return a->getCost() < b->getCost();
     }
 
-    typename std::set<State<P>*,StateComparatorLesser<P>>::iterator findInSet (State<P>* find) {
-
-        typename std::set<State<P>*,StateComparatorLesser<P>>::iterator is_in_open;
-        auto eqr = this->stateSet.equal_range(find);
-        auto it = eqr.first;
-
-        for (; it != eqr.second; ++it) {
-
-            if ((*it)->getState() == find->getState()) {
-                return it;
-            }
-        }
-
-        return this->stateSet.end();
-    }
-
     S search(ISearchable<P>* searchable) override {
 
         /* Closed list */
@@ -75,12 +59,11 @@ public:
             for (; it != successors.end(); ++it) {
 
                 /* Check if successor is in closed/open vectors. */
-                //typename std::vector<State<P>*>::iterator is_in_closed = std::find(closeSet.begin(), closeSet.end(), (*it));
                 int is_in_map = (unsigned int) closeMap.count((*it));
-                typename std::set<State<P>*,StateComparatorLesser<P>>::iterator is_in_open = this->findInSet((*it)); //this->stateSet.find((*it));
+                typename std::set<State<P>*,StateComparatorLesser<P>>::iterator is_in_open = this->findInSet((*it));
 
 
-                if (/*(is_in_closed == closeSet.end()*/(is_in_map == 0 ) && (is_in_open == this->stateSet.end())) {
+                if ((is_in_map == 0 ) && (is_in_open == this->stateSet.end())) {
                     /* successor is not in closed and not in open vector. */
 
                     /* Update State and add to open. */

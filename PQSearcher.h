@@ -17,6 +17,22 @@ public:
 
     PQSearcher(bool (*cmp_func)(State<P>* a, State<P>* b)) : numberOfNodesEvaluated(0), stateSet(cmp_func){}
 
+    typename std::multiset<State<P>*,StateComparatorLesser<P>>::iterator findInSet (State<P>* find) {
+
+        typename std::multiset<State<P>*,StateComparatorLesser<P>>::iterator is_in_open;
+        auto eqr = this->stateSet.equal_range(find);
+        auto it = eqr.first;
+
+        for (; it != eqr.second; ++it) {
+
+            if ((*it)->getState() == find->getState()) {
+                return it;
+            }
+        }
+
+        return this->stateSet.end();
+    }
+
     int PriorityQueueSize() {
         return this->priorityQueue.size();
     }

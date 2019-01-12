@@ -43,13 +43,14 @@ public:
             if (!current->getVisited()) {
                 current->setVisited(true);
             }
-            this->stateSet.erase(current);
+            this->deleteInSet(current);
             closeMap.insert({current,0});
             //closeSet.push_back(current);
 
             /* If we got to goal, stop. */
             if (current->Equals(searchable->getGoalState())) {
                 //TODO Backtrack to get path and return.
+                return current;
             }
 
             /* Get all successors. */
@@ -82,16 +83,17 @@ public:
                     double it_potential_cost = it_current_cost + current->getCost();
 
                     if ( it_potential_cost < it_actual_cost ) {
-                        /* Adjust its priority. */
-                        this->stateSet.erase((*it));
+
+                        /* If it is in open, remove it. */
+                        if (is_in_open != this->stateSet.end()) {
+                            this->deleteInSet((*it));
+                        }
+
+                        /* Update stats and add to openSet. */
                         (*it)->setCameFrom(current);
                         (*it)->setCost(it_potential_cost);
                         this->stateSet.insert((*it));
-                    } else {
-                        /* If it not in open, add it. */
-                        if (is_in_open == this->stateSet.end()) {
-                            this->stateSet.insert((*it));
-                        }
+
                     }
                 }
 

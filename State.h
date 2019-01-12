@@ -24,7 +24,7 @@ public:
 
     //// CHECKERS
 
-    bool Equals(State<T>* s) {
+    bool Equals(const State<T>* s) {
         return this->state == (s->state);
     }
 

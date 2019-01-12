@@ -149,6 +149,15 @@ State<std::pair<int, int>> *SearchableMatrix::getGoalState() {
     return this->goal;
 }
 
+int SearchableMatrix::getDistance(State<std::pair<int, int>>* slot1, State<std::pair<int, int>>* slot2) {
+    int x1 = slot1->getState().first;
+    int y1 = slot1->getState().second;
+    int x2 = slot2->getState().first;
+    int y2 = slot2->getState().second;
+
+    return abs(x1 - x2) + abs(y1 - y2);
+}
+
 SearchableMatrix::~SearchableMatrix() {
 
 

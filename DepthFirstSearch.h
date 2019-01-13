@@ -34,6 +34,7 @@ public:
         while (!stack.empty()) {
             this->numberOfNodesEvaluated++;
             top = stack.top();
+            top->setVisited(true);
             stack.pop();
 
             if (top->Equals(searchable->getGoalState())) {
@@ -44,8 +45,9 @@ public:
             typename std::vector<State<P>*>::iterator itor;
 
             for (itor = possibilities.begin(); itor != possibilities.end(); itor++) {
-                if ((!(*itor)->isVisited()) && ((*itor)->getCost() != -1)) { //add every adjacent that's not visited to the stack.
+                if (!(*itor)->isVisited()) { //add every adjacent that's not visited to the stack.
                     stack.push(*itor);
+                    (*itor)->setCameFrom(top);
                 }
             }
         }

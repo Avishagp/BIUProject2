@@ -43,7 +43,7 @@ public:
 
             for (itor = possibles.begin(); itor != possibles.end(); itor++) {
                 /* If a child node wasn't visited, add to queue. */
-                if ((!(*itor)->isVisited()) && ((*itor)->getCost() != -1)) {
+                if (!(*itor)->isVisited()) {
                     (*itor)->setVisited(true);
                     qs.push(*itor);
                     (*itor)->setCameFrom(node);

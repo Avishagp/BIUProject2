@@ -16,7 +16,7 @@ using namespace server_side;
 
 class MyParallelServer : public Server {
 private:
-    std::vector<pthread_t> threads;
+    std::vector<pthread_t*> threads;
 
 public:
     void open(int port, ClientHandler *clientHandler) override;

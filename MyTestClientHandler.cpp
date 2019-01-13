@@ -12,6 +12,7 @@ void MyTestClientHandler::handleClient(int socketfd) {
 
         /* Read current line. */
         bzero(buffer, 1024);
+
         n = (int)read(socketfd, buffer, 1023);
 
         current = buffer;
@@ -48,4 +49,6 @@ void MyTestClientHandler::handleClient(int socketfd) {
             }
         }
     }
+
+    //close(socketfd);
 }

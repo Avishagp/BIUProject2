@@ -14,6 +14,11 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
      */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
+    /* Initialize and set thread as joinable. */
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
     /* Check of creation succeeded*/
     if (sockfd < 0) {
         perror("Error opening socket.");
@@ -51,36 +56,29 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
         if (newsockfd < 0) {
             perror("timeout!");
             time_out = true;
+        } else {
+
+            auto args = new ArgumentsForOpenServer(port, clientHandler, newsockfd);
+            pthread_t* pthread = new pthread_t;
+            this->threads.push_back(pthread);
+            pthread_create(pthread, &attr, MyParallelServer::callHandler ,(void*)(args));
         }
-
-        auto args = new ArgumentsForOpenServer(port, clientHandler, newsockfd);
-        pthread_t pthread;
-
-        /* Initialize and set thread as joinable. */
-        pthread_attr_t attr;
-        pthread_attr_init(&attr);
-        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
-        /* Free attribute */
-        pthread_attr_destroy(&attr);
-
-
-        this->threads.push_back(pthread);
-        pthread_create(&pthread, &attr, MyParallelServer::callHandler ,(void*)(args));
     }
-
+    /* Free attribute */
+    pthread_attr_destroy(&attr);
     stop();
 }
 
 void MyParallelServer::stop() {
 
+    void* status;
     auto iterator = this->threads.begin();
     for (; iterator != this->threads.end(); ++iterator) {
-        int result = pthread_join(*iterator, nullptr);
-        if (result != 0) {
-            perror("Could not join thread.\n");
-        }
+        pthread_join((*(*iterator)), &status);
+        free((*iterator));
     }
+
+    this->threads.clear();
 
 }
 

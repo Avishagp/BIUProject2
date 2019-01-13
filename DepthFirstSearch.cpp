@@ -1,8 +1,8 @@
 
-#include "DFS.h"
+#include "DepthFirstSearch.h"
 
 template <class P, class S>
-S DFS<P,S>::searchInPossibleStates(ISearchable<P> searchable, State<S> *current, State<S> *goal) {
+S DepthFirstSearch<P,S>::searchInPossibleStates(ISearchable<P> searchable, State<S> *current, State<S> *goal) {
     typename std::vector<State<S>>::iterator itor;
     std::vector<State<S>> possible = searchable.getAllPossibleStates(current);
 
@@ -31,7 +31,7 @@ S DFS<P,S>::searchInPossibleStates(ISearchable<P> searchable, State<S> *current,
 }
 
 template <class P, class S>
-S DFS<P,S>::search(ISearchable<P> searchable) {
+S DepthFirstSearch<P,S>::search(ISearchable<P> searchable) {
     /* Get the initial state and the goal state from the searchable. */
     State<S> *initial = searchable.getInitialState();
     State<S> *goal = searchable.getGoalState();

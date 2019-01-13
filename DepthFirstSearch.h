@@ -9,7 +9,7 @@
 
 template <class P, class S>
 
-class DFS : public PQSearcher<P,S> {
+class DepthFirstSearch : public ISearcher<P,S> {
 private:
     S searchInPossibleStates(ISearchable<P> searchable, State<S> *current, State<S> *goal);
 public:

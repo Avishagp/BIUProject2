@@ -1,8 +1,8 @@
 
-#include "BFS.h"
+#include "BreadthFirstSearch.h"
 
 template <class P, class S>
-S BFS<P,S>::searchInAllPossibleStates(ISearchable<P> searchable, State<S> *initial, State<S> *goal) {
+S BreadthFirstSearch<P,S>::searchInAllPossibleStates(ISearchable<P> searchable, State<S> *initial, State<S> *goal) {
     std::queue<State<S>> qs;
     qs.push(initial);
     initial->setVisited(true);
@@ -35,7 +35,7 @@ S BFS<P,S>::searchInAllPossibleStates(ISearchable<P> searchable, State<S> *initi
 }
 
 template <class P, class S>
-S BFS<P,S>::search(ISearchable<P> searchable) {
+S BreadthFirstSearch<P,S>::search(ISearchable<P> searchable) {
 
     /* Get the initial state and the goal state from the searchable. */
     State<S> *initial = searchable.getInitialState();

@@ -27,9 +27,6 @@ public:
         /* Open list */
         searchable->getInitialState()->setVisited(true);
         this->stateSet.insert(searchable->getInitialState());
-        this->numberOfNodesEvaluated++;
-
-
 
         /* Bode iterator. */
         State<P>* current = nullptr;
@@ -44,13 +41,11 @@ public:
                 current->setVisited(true);
             }
             this->deleteInSet(current);
+            this->numberOfNodesEvaluated++;
             closeMap.insert({current,0});
-            //closeSet.push_back(current);
 
             /* If we got to goal, stop. */
             if (current->Equals(searchable->getGoalState())) {
-                //TODO Backtrack to get path and return.
-                std::string result ;
                 return current;
             }
 
@@ -69,7 +64,6 @@ public:
                     /* successor is not in closed and not in open vector. */
 
                     /* Update State and add to open. */
-                    this->numberOfNodesEvaluated++;
                     (*it)->setCameFrom(current);
                     (*it)->setVisited(true);
                     (*it)->setCost((*it)->getCost() + current->getCost());

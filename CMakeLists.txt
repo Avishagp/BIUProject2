@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS  "-pthread")
 set(SOURCE_FILES main.cpp Server.h MySerialServer.h MySerialServer.cpp ClientHandler.h MyTestClientHandler.cpp
         MyTestClientHandler.h CacheManager.h FileCacheManager.cpp FileCacheManager.h Solver.h StringReverser.h
         ArgumentsForOpenServer.h SearchableMatrix.h SearchableMatrix.cpp ISearchable.h ISearcher.h PQSearcher.h
-        StateComparatorLesser.h DFS.cpp DFS.h BFS.cpp BFS.h AStar.cpp AStar.h)
+        StateComparatorLesser.h DFS.cpp DFS.h BFS.cpp BFS.h AStar.cpp AStar.h MyParallelServer.cpp MyParallelServer.h)
 add_executable(BIUProject2 ${SOURCE_FILES} main.cpp Server.h MySerialServer.cpp MySerialServer.h ClientHandler.h
         MyTestClientHandler.cpp MyTestClientHandler.h CacheManager.h FileCacheManager.h FileCacheManager.cpp Solver.h
         ArgumentsForOpenServer.h DFS.cpp DFS.h BFS.cpp BFS.h AStar.cpp AStar.h)

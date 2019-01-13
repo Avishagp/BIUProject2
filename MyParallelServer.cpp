@@ -1,12 +1,9 @@
 
-#include "MySerialServer.h"
+#include "MyParallelServer.h"
 
-void* MySerialServer::openServer(void* argumentsForOpenServer) {
-    int port = ((ArgumentsForOpenServer*)argumentsForOpenServer)->getPortNum();
-    ClientHandler *clientHandler = ((ArgumentsForOpenServer*)argumentsForOpenServer)->getClientHandler();
+void MyParallelServer::open(int port, ClientHandler *clientHandler) {
 
     int sockfd, newsockfd, clilen;
-
     struct sockaddr_in serv_addr, cli_addr;
 
     /**
@@ -36,9 +33,9 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
         exit(1);
     }
 
+    bool time_out = false;
     /* Now start listening for the clients. */
-
-    while (true) {
+    while (!time_out) {
         listen(sockfd,5);
         clilen = sizeof(cli_addr);
 
@@ -51,38 +48,50 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
         /* Accept actual connection from the client */
         newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
 
-        //todo
-
         if (newsockfd < 0) {
-            if (errno == EWOULDBLOCK)	{
-                std::cout << "timeout!" << std::endl;
-                break;
-            } else {
-                perror("ERROR on accept");
-                exit(1);
-            }
+            perror("timeout!");
+            time_out = true;
         }
 
-        /* If connection is established then start communicating. */
-        clientHandler->handleClient(newsockfd);
+        auto args = new ArgumentsForOpenServer(port, clientHandler, newsockfd);
+        pthread_t pthread;
 
+        /* Initialize and set thread as joinable. */
+        pthread_attr_t attr;
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+        /* Free attribute */
+        pthread_attr_destroy(&attr);
+
+
+        this->threads.push_back(pthread);
+        pthread_create(&pthread, &attr, MyParallelServer::callHandler ,(void*)(args));
     }
 
-    /* Close socket. */
-    close(newsockfd);
-    return nullptr;
+    stop();
 }
 
-void MySerialServer::open(int port, ClientHandler* clientHandler) {
+void MyParallelServer::stop() {
 
-    auto argumentsForOpenServer = new ArgumentsForOpenServer(port, clientHandler);
-
-    /* Create thread that'll open a server and read from the client. */
-    pthread_t pthread;
-    pthread_create(&pthread, nullptr, MySerialServer::openServer, (void*)(argumentsForOpenServer));
+    auto iterator = this->threads.begin();
+    for (; iterator != this->threads.end(); ++iterator) {
+        int result = pthread_join(*iterator, nullptr);
+        if (result != 0) {
+            perror("Could not join thread.\n");
+        }
+    }
 
 }
 
-void MySerialServer::stop() {
+/**
+ * Wrap's the call to client handler.
+ * @param args The arguments needed.
+ * @return
+ */
+void *MyParallelServer::callHandler(void* args) {
 
+    /* Call client handler. */
+    auto * arguments = (ArgumentsForOpenServer*) args;
+    arguments->getClientHandler()->handleClient(arguments->getSocketID());
 }

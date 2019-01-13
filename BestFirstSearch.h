@@ -73,9 +73,8 @@ public:
                     /* successor is in closed or open vector. */
 
                     /* Check if this new path is better than previous one. */
-                    double it_current_cost   = (*it)->getCost();
-                    double it_actual_cost    = it_current_cost - (*it)->getCameFrom()->getCost();
-                    double it_potential_cost = it_current_cost + current->getCost();
+                    double it_actual_cost    = (*it)->getCost() - (*it)->getCameFrom()->getCost();
+                    double it_potential_cost = CalcuatePotentialCost(it, current);
 
                     if ( it_potential_cost < it_actual_cost ) {
 
@@ -95,6 +94,10 @@ public:
         }
         return nullptr;
     }
+
+    virtual double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) {
+        return (*it)->getCost() + current->getCost();
+}
 
 };
 

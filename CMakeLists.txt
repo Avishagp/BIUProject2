@@ -3,7 +3,7 @@ project(BIUProject2)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS  "-pthread")
-set(SOURCE_FILES main.cpp Server.h MySerialServer.h MySerialServer.cpp ClientHandler.h MyTestClientHandler.cpp
+set(SOURCE_FILES main.cpp Server.h MySerialServer.h MySerialServer.cpp MyParallelServer.h MyParallelServer.cpp ClientHandler.h MyTestClientHandler.cpp
         MyTestClientHandler.h CacheManager.h FileCacheManager.cpp FileCacheManager.h Solver.h StringReverser.h
         ArgumentsForOpenServer.h SearchableMatrix.h SearchableMatrix.cpp ISearchable.h ISearcher.h PQSearcher.h
         StateComparatorLesser.h DepthFirstSearch.cpp DepthFirstSearch.h BreadthFirstSearch.cpp BreadthFirstSearch.h AStar.cpp AStar.h)

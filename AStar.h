@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <map>
 #include "PQSearcher.h"
 #include "State.h"
 

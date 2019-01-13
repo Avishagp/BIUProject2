@@ -8,15 +8,24 @@
 #include <map>
 #include "PQSearcher.h"
 #include "State.h"
+#include "BestFirstSearch.h"
 
 template <class P, class S>
 
-class AStar  : public PQSearcher<P,S>{
+class AStar  : public BestFirstSearch<P,S> {
 private:
-    S searchInPossibleStates(ISearchable<P> searchable, State<S> *initial, State<S> *goal);
-    int heuristic(ISearchable<P> searchable, State<S> a, State<S> b);
+    int heuristic(State<P>* a, State<P>* b) {
+        int x1 = a->getState().first;
+        int y1 = a->getState().second;
+        int x2 = b->getState().first;
+        int y2 = b->getState().second;
+
+        return abs(x1 - x2) + abs(y1 - y2);
+    }
 public:
-    S search(ISearchable<P> searchable) override;
+    double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) override {
+        return (*it)->getCost() + current->getCost() + heuristic((*it), current);
+    }
 };
 
 

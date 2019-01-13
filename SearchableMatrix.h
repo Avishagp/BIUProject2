@@ -23,8 +23,8 @@ public:
     void addRowToMaze(std::string);
 
 public:
-    State<std::pair<int, int>> *getInitialState() override;
-    State<std::pair<int, int>> *getGoalState() override;
+    State<std::pair<int, int>>* getInitialState() override;
+    State<std::pair<int, int>>* getGoalState() override;
     std::vector<State<std::pair<int, int>>*> getAllPossibleStates(State<std::pair<int, int>>*) override;
     int getDistance(State<std::pair<int, int>>*, State<std::pair<int, int>>*) override;
     ~SearchableMatrix() override;

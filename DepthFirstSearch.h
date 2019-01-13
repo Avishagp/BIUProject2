@@ -4,43 +4,57 @@
 
 #include <vector>
 #include <string>
+#include <stack>
 #include "PQSearcher.h"
 #include "State.h"
 
 template <class P, class S>
 
 class DepthFirstSearch : public ISearcher<P,S> {
+private:
+    int numberOfNodesEvaluated;
 public:
+    DepthFirstSearch() {
+        numberOfNodesEvaluated = 0;
+    }
+
     S search(ISearchable<P>* searchable) override {
         /* Get the initial state and the goal state from the searchable. */
-        State<S> *current = searchable->getInitialState();
-        State<S> *goal = searchable->getGoalState();
+        State<P>* current = searchable->getInitialState();
+        State<P>* goal = searchable->getGoalState();
 
-        typename std::vector<State<S>>::iterator itor;
-        std::vector<State<S>> possible = searchable->getAllPossibleStates(current);
+        /* Create a stack */
+        std::stack<State<P>*> stack;
 
-        /* Iterate on all the possible states. */
-        for (itor = possible.begin(); itor != possible.end(); itor++) {
-            /* Set the node that we came from. */
-            itor->setCameFrom(current);
+        /* Push the initial node. */
+        stack.push(current);
+        current->setVisited(true);
+        State<P>* top;
 
-            if (itor->getVisited()) { //node has already been visited.
-                continue;
-            } else {
-                itor->setState(true); //set visited
-                this->numberOfNodesEvaluated++; //increment number of nodes visited
+        while (!stack.empty()) {
+            this->numberOfNodesEvaluated++;
+            top = stack.top();
+            stack.pop();
 
-                if (itor->Equals(goal)) { //If current state is the goal, return.
-                    return goal->getState();
-                } else {
-                    /* Search all sons of itor. If one of them is goal, return it! */
-                    if (searchInPossibleStates(searchable, &itor, goal) == goal->getState()) {
-                        return goal->getState();
-                    }
+            if (top->Equals(searchable->getGoalState())) {
+                return goal;
+            }
+
+            std::vector<State<P>*> possibilities = searchable->getAllPossibleStates(top);
+            typename std::vector<State<P>*>::iterator itor;
+
+            for (itor = possibilities.begin(); itor != possibilities.end(); itor++) {
+                if ((!(*itor)->isVisited()) && ((*itor)->getCost() != -1)) { //add every adjacent that's not visited to the stack.
+                    stack.push(*itor);
                 }
             }
         }
-        return current->getState(); //all sons weren't goal
+
+        return top;
+    }
+
+    int getNumberOfNodesEvaluated() {
+        return this->numberOfNodesEvaluated;
     }
 };
 

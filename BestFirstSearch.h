@@ -97,7 +97,7 @@ public:
 
     virtual double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) {
         return (*it)->getCost() + current->getCost();
-}
+    }
 
 };
 

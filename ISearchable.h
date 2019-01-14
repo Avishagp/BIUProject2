@@ -29,8 +29,6 @@ public:
      * Destructor.
      */
     virtual ~ISearchable(){};
-
-    virtual int getDistance(State<T>*, State<T>*) = 0;
 };
 
 

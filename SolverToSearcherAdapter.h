@@ -12,7 +12,7 @@
 class SolverToSearcherAdapter : public Solver<ISearchable<std::pair<int,int>>*,State<std::pair<int,int>>*> {
 
 private:
-    ISearcher< std::pair<int, int> , State<std::pair<int,int>>*>* searcher;
+    ISearcher<std::pair<int, int> , State<std::pair<int,int>>*>* searcher;
 
 public:
 

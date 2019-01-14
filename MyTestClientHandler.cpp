@@ -2,6 +2,7 @@
 #include "MyTestClientHandler.h"
 
 void MyTestClientHandler::handleClient(int socketfd) {
+
     /* Read from server line by line until isEndReached is false ("end" line reached). */
     bool isEndReached = true;
     string current;

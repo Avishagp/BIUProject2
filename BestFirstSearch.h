@@ -80,7 +80,7 @@ public:
                     /* Update State and add to open. */
                     (*it)->setCameFrom(current);
                     (*it)->setVisited(true);
-                    (*it)->setCost(CalcuatePotentialCost(it, current));
+                    (*it)->setCost(CalcuatePotentialCost(it, current, nullptr));
                     this->stateSet.insert((*it));
 
                 } else {
@@ -88,7 +88,7 @@ public:
 
                     /* Check if this new path is better than previous one. */
                     double it_actual_cost    = (*it)->getCost() - (*it)->getCameFrom()->getCost();
-                    double it_potential_cost = CalcuatePotentialCost(it, current);
+                    double it_potential_cost = CalcuatePotentialCost(it, current, nullptr);
 
                     if ( it_potential_cost < it_actual_cost ) {
 
@@ -112,10 +112,11 @@ public:
     /**
      * Calcuate the potential cost of a path.
      * @param it - Iterator to the next step.
-     * @param current The current State.
+     * @param current - The current State.
+     * @param goal - The goal State.
      * @return The combined cost of the States.
      */
-    virtual double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) {
+    virtual double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current, State<P>* goal) {
         return (*it)->getCost() + current->getCost();
     }
 

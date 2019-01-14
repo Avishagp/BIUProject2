@@ -80,7 +80,7 @@ public:
                     /* Update State and add to open. */
                     (*it)->setCameFrom(current);
                     (*it)->setVisited(true);
-                    (*it)->setCost(CalculatePotentialCost(it, current, nullptr));
+                    (*it)->setCost(CalculatePotentialCost(it, current, searchable->getGoalState()));
                     this->stateSet.insert((*it));
 
                 } else {
@@ -88,7 +88,7 @@ public:
 
                     /* Check if this new path is better than previous one. */
                     double it_actual_cost    = (*it)->getCost() - (*it)->getCameFrom()->getCost();
-                    double it_potential_cost = CalculatePotentialCost(it, current, nullptr);
+                    double it_potential_cost = CalculatePotentialCost(it, current, searchable->getGoalState());
 
                     if ( it_potential_cost < it_actual_cost ) {
 

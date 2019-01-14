@@ -6,6 +6,7 @@
 #include <string>
 #include <queue>
 #include <map>
+#include <math.h>
 #include "PQSearcher.h"
 #include "State.h"
 #include "BestFirstSearch.h"
@@ -17,23 +18,28 @@ private:
 
     /**
     * Calculate the linear distance between two States.
-    * @param slot1 First State.
-    * @param slot2 Second State.
+    * @param a First State.
+    * @param b Second State.
     * @return The linear distance between two States.
     */
-    int heuristic(State<P>* a, State<P>* b) {
+    double heuristic(State<P>* a, State<P>* b) {
         int x1 = a->getState().first;
         int y1 = a->getState().second;
         int x2 = b->getState().first;
         int y2 = b->getState().second;
 
-        return abs(x1 - x2) + abs(y1 - y2);
+        double power1 = pow(x2-x1,2);
+        double power2 = pow(y2-y1,2);
+        return sqrt(power1 + power2);
     }
 
 public:
 
-    double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) override {
-        return ((*it)->getCost() + current->getCost() + heuristic((*it), current));
+    double CalculatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current, State<P>* goal) override {
+        if (current->getCameFrom() == NULL) {
+            return ((*it)->getCost() + current->getCost() + heuristic((*it), goal));
+        }
+        return ((*it)->getCost() + current->getCost() + heuristic((*it), goal) - heuristic(current, goal));
     }
 };
 

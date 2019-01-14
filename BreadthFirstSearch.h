@@ -46,7 +46,12 @@ public:
                 if (!(*itor)->isVisited()) {
                     (*itor)->setVisited(true);
                     qs.push(*itor);
+
+                    /* Update where we got to the node from.*/
                     (*itor)->setCameFrom(node);
+
+                    /* Update node's cost. */
+                    (*itor)->setCost((*itor)->getCost() + node->getCost());
                 }
             }
         }

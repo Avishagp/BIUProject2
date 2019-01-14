@@ -32,9 +32,8 @@ private:
 
 public:
 
-
     double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) override {
-        return (*it)->getCost() + current->getCost() + heuristic((*it), current);
+        return ((*it)->getCost() + current->getCost() + heuristic((*it), current));
     }
 };
 

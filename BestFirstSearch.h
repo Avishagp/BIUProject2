@@ -80,7 +80,7 @@ public:
                     /* Update State and add to open. */
                     (*it)->setCameFrom(current);
                     (*it)->setVisited(true);
-                    (*it)->setCost((*it)->getCost() + current->getCost());
+                    (*it)->setCost(CalcuatePotentialCost(it, current));
                     this->stateSet.insert((*it));
 
                 } else {

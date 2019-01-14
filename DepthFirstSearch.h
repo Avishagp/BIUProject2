@@ -44,10 +44,18 @@ public:
             std::vector<State<P>*> possibilities = searchable->getAllPossibleStates(top);
             typename std::vector<State<P>*>::iterator itor;
 
+            /* Iterate through all of the top's possible adjacents. */
             for (itor = possibilities.begin(); itor != possibilities.end(); itor++) {
-                if (!(*itor)->isVisited()) { //add every adjacent that's not visited to the stack.
+                if (!(*itor)->isVisited()) {
+
+                    /* add every adjacent that's not visited to the stack.*/
                     stack.push(*itor);
+
+                    /* Update where we got to the node from.*/
                     (*itor)->setCameFrom(top);
+
+                    /* Update node's cost. */
+                    (*itor)->setCost((*itor)->getCost() + top->getCost());
                 }
             }
         }

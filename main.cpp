@@ -8,11 +8,12 @@
 #include "SearchableMatrix.h"
 #include "BestFirstSearch.h"
 #include "DepthFirstSearch.h"
+#include "AStar.h"
 
 int main() {
 
     ISearchable<std::pair<int,int>>* a = new SearchableMatrix("1,1,1,-1,-1\n-1,-1,1,-1,-1\n1,1,1,-1,-1\n1,-1,-1,-1,-1\n1,1,1,1,1");
-    ISearcher<std::pair<int,int>,State<std::pair<int,int>>*>* s = new DepthFirstSearch<std::pair<int,int>,State<std::pair<int,int>>*> ();
+    ISearcher<std::pair<int,int>,State<std::pair<int,int>>*>* s = new AStar<std::pair<int,int>,State<std::pair<int,int>>*> ();
     State<std::pair<int,int>>* pathEnd = s->search(a);
 
     State<std::pair<int,int>>* current  = pathEnd;

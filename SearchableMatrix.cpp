@@ -2,13 +2,9 @@
 
 #include "SearchableMatrix.h"
 
-/**
- * Constructor, gets a string and builds the StateMatrix.
- * @param maze The maze as a string.
- */
+
 SearchableMatrix::SearchableMatrix(std::string maze) {
 
-    //todo skip the building of the mazeMatrix!
     //// Build mazeMatrix
 
     /* A stream to parse with. */
@@ -59,11 +55,6 @@ SearchableMatrix::SearchableMatrix(std::string maze) {
 
 }
 
-/**
- * Return's a vector of all possible moves.
- * @param s The state we begin in.
- * @return a vector of all possible moves.
- */
 std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>>* s) {
 
     std::vector<State<std::pair<int, int>>*> result;
@@ -131,10 +122,6 @@ std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(
     return result;
 }
 
-/**
- * Adding a row to the maze, in case we want to build step by step.
- * @param newRow The new row.
- */
 void SearchableMatrix::addRowToMaze(std::string newRow) {
 
     std::vector<int> rowToAdd;
@@ -154,7 +141,6 @@ void SearchableMatrix::addRowToMaze(std::string newRow) {
     this->mazeMatrix.push_back(rowToAdd);
 }
 
-//// GETTERS
 State<std::pair<int, int>> *SearchableMatrix::getInitialState() {
     return this->start;
 }
@@ -163,27 +149,12 @@ State<std::pair<int, int>> *SearchableMatrix::getGoalState() {
     return this->goal;
 }
 
-/**
- * Calculate the linear distance between two States.
- * @param slot1 First State.
- * @param slot2 Second State.
- * @return The linear distance between two States.
- */
-int SearchableMatrix::getDistance(State<std::pair<int, int>>* slot1, State<std::pair<int, int>>* slot2) {
-    int x1 = slot1->getState().first;
-    int y1 = slot1->getState().second;
-    int x2 = slot2->getState().first;
-    int y2 = slot2->getState().second;
-
-    return abs(x1 - x2) + abs(y1 - y2);
-}
-
-/**
- * Destructor, Free all the States we created.
- */
 SearchableMatrix::~SearchableMatrix() {
+
+
     auto it1 = this->stateMatrix.begin();
     for (; it1 != this->stateMatrix.end(); ++it1) {
+
         auto it2 = it1->begin();
         for (; it2 != it1->end(); ++it2) {
             delete(*it2);

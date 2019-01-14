@@ -36,8 +36,8 @@ private:
 public:
 
     double CalculatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current, State<P>* goal) override {
-        if (current->getCameFrom() == NULL) {
-            return ((*it)->getCost() + current->getCost() + heuristic((*it), goal));
+        if ((*it)->getCameFrom() == NULL) {
+            return ((*it)->getCost() + heuristic((*it), goal));
         }
         return ((*it)->getCost() + current->getCost() + heuristic((*it), goal) - heuristic(current, goal));
     }

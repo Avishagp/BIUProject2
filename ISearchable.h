@@ -13,11 +13,24 @@ template <class T>
 class ISearchable {
 
 public:
+
+    //// GETTERS
     virtual State<T>* getInitialState() = 0;
     virtual State<T>* getGoalState() = 0;
+
+    /**
+     * Return's a vector of all possible moves.
+     * @param s The state we begin in.
+     * @return a vector of all possible moves.
+     */
     virtual std::vector<State<T>*> getAllPossibleStates(State<T>* s) = 0;
-    virtual int getDistance(State<T>*, State<T>*) = 0;
+
+    /**
+     * Destructor.
+     */
     virtual ~ISearchable(){};
+
+    virtual int getDistance(State<T>*, State<T>*) = 0;
 };
 
 

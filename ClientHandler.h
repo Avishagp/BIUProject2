@@ -4,6 +4,9 @@
 
 #include <string>
 
+/**
+ * Defines a Client Handler object.
+ */
 class ClientHandler {
 public:
 
@@ -12,7 +15,7 @@ public:
      * @param input
      * @param output
      */
-    virtual void handleClient(int socketfd) = 0;
+    virtual void handleClient(int) = 0;
 };
 
 

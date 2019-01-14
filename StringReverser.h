@@ -6,7 +6,10 @@
 #include <algorithm>
 #include <iterator>
 
-//template <class T, class T2>
+/**
+ * This solver gets a string and returns the reversed string.
+ * IMPORTANT: Does not delete special characters (\n , \r ETC.)
+ */
 class StringReverser : public Solver<std::string,std::string> {
 
 public:

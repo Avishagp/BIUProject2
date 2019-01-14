@@ -11,9 +11,16 @@
 #include "BestFirstSearch.h"
 
 template <class P, class S>
-
 class AStar  : public BestFirstSearch<P,S> {
+
 private:
+
+    /**
+    * Calculate the linear distance between two States.
+    * @param slot1 First State.
+    * @param slot2 Second State.
+    * @return The linear distance between two States.
+    */
     int heuristic(State<P>* a, State<P>* b) {
         int x1 = a->getState().first;
         int y1 = a->getState().second;
@@ -22,7 +29,10 @@ private:
 
         return abs(x1 - x2) + abs(y1 - y2);
     }
+
 public:
+
+
     double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) override {
         return (*it)->getCost() + current->getCost() + heuristic((*it), current);
     }

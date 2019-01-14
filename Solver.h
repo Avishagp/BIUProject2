@@ -4,13 +4,25 @@
 
 #include "string"
 
+/**
+ * Define's a Solver.
+ * @tparam P The problem.
+ * @tparam S The solution.
+ */
 template <class P, class S>
 class Solver {
 
-private:
-
 public:
+
+    /**
+     * The solver method.
+     * @return Solution.
+     */
     virtual S solveProblem(P) = 0;
+
+    /**
+     * Destructor.
+     */
     virtual ~Solver(){};
 };
 

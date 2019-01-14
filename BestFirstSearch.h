@@ -12,12 +12,26 @@ private:
 
 public:
 
+    /**
+     * Constructor, Defines the compare method of the multiset in PQSearcher.
+     */
     BestFirstSearch() : PQSearcher <P,S> (BestFirstSearch::Compare){}
 
+    /**
+     * The compare method of the multiset in PQSearcher.
+     * @param a First  object.
+     * @param b Second object.
+     * @return (a < b)
+     */
     static bool Compare (State<P>* a, State<P>* b) {
         return a->getCost() < b->getCost();
     }
 
+    /**
+     * Searches using the Best First Search algorithm.
+     * @param searchable The object to search in.
+     * @return Solution.
+     */
     S search(ISearchable<P>* searchable) override {
 
         /* Closed list */
@@ -95,6 +109,12 @@ public:
         return nullptr;
     }
 
+    /**
+     * Calcuate the potential cost of a path.
+     * @param it - Iterator to the next step.
+     * @param current The current State.
+     * @return The combined cost of the States.
+     */
     virtual double CalcuatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current) {
         return (*it)->getCost() + current->getCost();
     }

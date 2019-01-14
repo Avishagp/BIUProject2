@@ -1,6 +1,12 @@
 
 #include "MyParallelServer.h"
 
+/**
+ * Create and open the server, for each accepted client we open a thread.
+ * We stop accepting after a timeout event, in this case we call stop function.
+ * @param port The port to listen on.
+ * @param clientHandler The client handler to use for each client.
+ */
 void MyParallelServer::open(int port, ClientHandler *clientHandler) {
 
     int sockfd, newsockfd, clilen;
@@ -69,6 +75,9 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     stop();
 }
 
+/**
+ * Joining all the threads we opened by order and deleting allocated objects.
+ */
 void MyParallelServer::stop() {
 
     void* status;

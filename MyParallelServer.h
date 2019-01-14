@@ -16,6 +16,7 @@ using namespace server_side;
 
 class MyParallelServer : public Server {
 private:
+    /* Holds all the opened pthreads. */
     std::vector<pthread_t*> threads;
 
 public:

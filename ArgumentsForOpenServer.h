@@ -4,6 +4,9 @@
 
 #include "ClientHandler.h"
 
+/**
+ * Used to send arguments for threads.
+ */
 class ArgumentsForOpenServer {
 private:
     ClientHandler *clientHandler;

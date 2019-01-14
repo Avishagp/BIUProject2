@@ -2,10 +2,16 @@
 #ifndef BIUPROJECT2_STATE_H
 #define BIUPROJECT2_STATE_H
 
+/**
+ * Define's a State.
+ * @tparam T The state of the State.
+ */
 template <class T>
 class State {
 
 private:
+
+    //// Data Members.
     T state;
     double cost;
     State<T>* cameFrom;

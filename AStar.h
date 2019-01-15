@@ -38,9 +38,11 @@ private:
 
 public:
 
-    double CalculatePotentialCost(State<P>* current, State<P>* goal, State<P>* start) override {
+    double CalculatePotentialCost(State<P>* current, State<P>* papa, State<P>* goal, State<P>* start) override {
 
-        return (current->getTotal_cost_to()       +
+        return (papa->getTotal_cost_to()          +
+                current->getOriginal_cost()       +
+                //current->getTotal_cost_to()       +
                 current->getDistance_from_start() +
                 DistanceToEnd(current, goal));
     }

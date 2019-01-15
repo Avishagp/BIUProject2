@@ -22,7 +22,8 @@ private:
     * @param b Second State.
     * @return The linear distance between two States.
     */
-    double heuristic(State<P>* a, State<P>* b) {
+    double DistanceToEnd(State<P> *a, State<P> *b) {
+
         int x1 = a->getState().first;
         int y1 = a->getState().second;
         int x2 = b->getState().first;
@@ -33,13 +34,15 @@ private:
         return sqrt(power1 + power2);
     }
 
+
+
 public:
 
-    double CalculatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current, State<P>* goal) override {
-        if ((*it)->getCameFrom() == NULL) {
-            return ((*it)->getCost() + heuristic((*it), goal));
-        }
-        return ((*it)->getCost() + current->getCost() + heuristic((*it), goal) - heuristic(current, goal));
+    double CalculatePotentialCost(State<P>* current, State<P>* goal, State<P>* start) override {
+
+        return (current->getTotal_cost_to()       +
+                current->getDistance_from_start() +
+                DistanceToEnd(current, goal));
     }
 };
 

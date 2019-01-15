@@ -13,7 +13,10 @@ private:
 
     //// Data Members.
     T state;
+    int distance_from_start;
+    double total_cost_to;
     double cost;
+    double original_cost;
     State<T>* cameFrom;
     bool visited;
 
@@ -26,6 +29,9 @@ public:
         this->cost     = costTo;
         this->cameFrom = prev;
         this->visited  = false;
+        this->original_cost       = costTo;
+        this->distance_from_start = 0;
+        this->total_cost_to       = costTo;
     }
 
     //// CHECKERS
@@ -36,8 +42,8 @@ public:
 
     //// SETTERS
 
-    void setState(T status) {
-        this->state = status;
+    void setDistance_from_start(int distance_from_start) {
+        this->distance_from_start = distance_from_start;
     }
 
     void setCost(double costTo) {
@@ -50,6 +56,10 @@ public:
 
     void setVisited(bool val) {
         this->visited = val;
+    }
+
+    void setTotal_cost_to(double total_cost_to) {
+        State::total_cost_to = total_cost_to;
     }
 
     //// GETTERS
@@ -72,6 +82,18 @@ public:
 
     bool isVisited() const {
         return visited;
+    }
+
+    double getOriginal_cost() const {
+        return original_cost;
+    }
+
+    int getDistance_from_start() const {
+        return distance_from_start;
+    }
+
+    double getTotal_cost_to() const {
+        return total_cost_to;
     }
 
     //// DESTRUCTOR

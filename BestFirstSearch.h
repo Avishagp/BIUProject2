@@ -79,18 +79,24 @@ public:
 
                     /* Update State and add to open. */
                     (*it)->setCameFrom(current);
+                    (*it)->setDistance_from_start(current->getDistance_from_start() + 1);
+                    (*it)->setTotal_cost_to((*it)->getOriginal_cost() + current->getOriginal_cost());
                     (*it)->setVisited(true);
-                    (*it)->setCost(CalculatePotentialCost(it, current, searchable->getGoalState()));
+                    (*it)->setCost(CalculatePotentialCost((*it), searchable->getGoalState(), searchable->getInitialState()));
                     this->stateSet.insert((*it));
 
                 } else {
                     /* successor is in closed or open vector. */
 
                     /* Check if this new path is better than previous one. */
-                    double it_actual_cost    = (*it)->getCost() - (*it)->getCameFrom()->getCost();
-                    double it_potential_cost = CalculatePotentialCost(it, current, searchable->getGoalState());
+                    double it_actual_cost    = /*(*it)->getOriginal_cost();*/(*it)->getCost() ;//- (*it)->getCameFrom()->getCost();
+                    double it_potential_cost = CalculatePotentialCost((*it), searchable->getGoalState(), searchable->getInitialState());
 
                     if ( it_potential_cost < it_actual_cost ) {
+
+                        if (is_in_map == 0) {
+                            closeMap.erase((*it));
+                        }
 
                         /* If it is in open, remove it. */
                         if (is_in_open != this->stateSet.end()) {
@@ -99,6 +105,8 @@ public:
 
                         /* Update stats and add to openSet. */
                         (*it)->setCameFrom(current);
+                        (*it)->setDistance_from_start(current->getDistance_from_start() + 1);
+                        (*it)->setTotal_cost_to((*it)->getOriginal_cost() + current->getOriginal_cost());
                         (*it)->setCost(it_potential_cost);
                         this->stateSet.insert((*it));
 
@@ -116,8 +124,8 @@ public:
      * @param goal - The goal State.
      * @return The combined cost of the States.
      */
-    virtual double CalculatePotentialCost(typename std::vector<State<P>*>::iterator it, State<P>* current, State<P>* goal) {
-        return (*it)->getCost() + current->getCost();
+    virtual double CalculatePotentialCost(State<P>* current, State<P>* goal, State<P>* start) {
+        return current->getCost() + current->getCameFrom()->getCost();
     }
 
 };

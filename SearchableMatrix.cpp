@@ -2,13 +2,30 @@
 
 #include "SearchableMatrix.h"
 
-SearchableMatrix::SearchableMatrix(std::string maze) {
+SearchableMatrix::SearchableMatrix(std::string maze, std::string start, std::string goal) {
+
+    std::string tempVal;
+    std::stringstream lineParser;
+
+    lineParser.str(start);
+    std::getline(lineParser, tempVal, ',');
+    int start_i = std::stoi(tempVal);
+    std::getline(lineParser, tempVal, ',');
+    int start_j = std::stoi(tempVal);
+
+    lineParser.clear();
+    lineParser.str(goal);
+    std::getline(lineParser, tempVal, ',');
+    int goal_i = std::stoi(tempVal);
+    std::getline(lineParser, tempVal, ',');
+    int goal_j = std::stoi(tempVal);
+    lineParser.clear();
 
     //// Build mazeMatrix
 
     /* A stream to parse with. */
     std::stringstream linesParser;
-    std::stringstream lineParser;
+    //std::stringstream lineParser;
     linesParser.str(maze);
 
     /* Splitting the date to elements. */
@@ -49,9 +66,8 @@ SearchableMatrix::SearchableMatrix(std::string maze) {
         this->stateMatrix.push_back(stateRow);
     }
 
-    this->start = this->stateMatrix.at(0).at(0);
-    this->goal  = this->stateMatrix.at(i-1).at(i-1);
-
+    this->start = this->stateMatrix.at(start_i).at(start_j);
+    this->goal  = this->stateMatrix.at(goal_i).at(goal_j);
 }
 
 std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>>* s) {

@@ -11,7 +11,6 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
 
     int sockfd, newsockfd, clilen;
     struct sockaddr_in serv_addr, cli_addr;
-
     bool first_client_served = false;
 
     /**
@@ -55,7 +54,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
             timeout.tv_sec = 10;
             timeout.tv_usec = 0;
 
-            setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+            ////setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
         }
 
         listen(sockfd,5);
@@ -95,6 +94,7 @@ void MyParallelServer::stop() {
     }
 
     this->threads.clear();
+    //pthread_mutex_destroy(&global_mutex);
 }
 
 /**

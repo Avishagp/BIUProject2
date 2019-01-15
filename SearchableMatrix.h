@@ -19,7 +19,7 @@ private:
     State<std::pair<int, int>>* start;
 
 public:
-    SearchableMatrix(std::string);
+    SearchableMatrix(std::string,std::string,std::string);
     void addRowToMaze(std::string);
 
 public:

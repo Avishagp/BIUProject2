@@ -12,6 +12,8 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     int sockfd, newsockfd, clilen;
     struct sockaddr_in serv_addr, cli_addr;
 
+    bool first_client_served = false;
+
     /**
      * First call to socket() function:
      * AF_INET     - IPv4 (Domain protocol)
@@ -47,17 +49,22 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     bool time_out = false;
     /* Now start listening for the clients. */
     while (!time_out) {
+
+        if (first_client_served) {
+            timeval timeout;
+            timeout.tv_sec = 10;
+            timeout.tv_usec = 0;
+
+            setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+        }
+
         listen(sockfd,5);
         clilen = sizeof(cli_addr);
 
-        timeval timeout;
-        timeout.tv_sec = 10;
-        timeout.tv_usec = 0;
-
-        setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
-
         /* Accept actual connection from the client */
         newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
+
+        first_client_served = true;
 
         if (newsockfd < 0) {
             perror("timeout!");
@@ -88,7 +95,6 @@ void MyParallelServer::stop() {
     }
 
     this->threads.clear();
-
 }
 
 /**

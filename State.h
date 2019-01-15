@@ -12,13 +12,13 @@ class State {
 private:
 
     //// Data Members.
-    T state;
     int distance_from_start;
     double total_cost_to;
-    double cost;
     double original_cost;
     State<T>* cameFrom;
     bool visited;
+    double cost;
+    T state;
 
 public:
 

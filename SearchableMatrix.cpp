@@ -2,7 +2,6 @@
 
 #include "SearchableMatrix.h"
 
-
 SearchableMatrix::SearchableMatrix(std::string maze) {
 
     //// Build mazeMatrix
@@ -151,7 +150,6 @@ State<std::pair<int, int>> *SearchableMatrix::getGoalState() {
 
 SearchableMatrix::~SearchableMatrix() {
 
-
     auto it1 = this->stateMatrix.begin();
     for (; it1 != this->stateMatrix.end(); ++it1) {
 
@@ -162,4 +160,3 @@ SearchableMatrix::~SearchableMatrix() {
     }
 
 }
-

@@ -80,7 +80,7 @@ public:
                     /* Update State and add to open. */
                     (*it)->setCameFrom(current);
                     (*it)->setDistance_from_start(current->getDistance_from_start() + 1);
-                    (*it)->setTotal_cost_to((*it)->getOriginal_cost() + current->getOriginal_cost());
+                    (*it)->setTotal_cost_to((*it)->getOriginal_cost() + current->getTotal_cost_to());
                     (*it)->setVisited(true);
                     (*it)->setCost(CalculatePotentialCost((*it), searchable->getGoalState(), searchable->getInitialState()));
                     this->stateSet.insert((*it));

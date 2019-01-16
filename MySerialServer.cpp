@@ -53,7 +53,6 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
 
         if (newsockfd < 0) {
             if (errno == EWOULDBLOCK)	{
-                std::cout << "timeout!" << std::endl;
                 break;
             } else {
                 //perror("ERROR on accept");

@@ -53,7 +53,7 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
         /* Waiting forever for first client only. */
         if (first_client_served) {
             timeval timeout;
-            timeout.tv_sec = 1;
+            timeout.tv_sec = 10;
             timeout.tv_usec = 0;
 
             setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));

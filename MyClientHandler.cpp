@@ -181,6 +181,7 @@ std::string MyClientHandler::Read(int socket_id) {
 
     actual_data = all_data.substr(0, all_data.find("end"));
     actual_data.erase(std::remove(actual_data.begin(), actual_data.end(), '\r'), actual_data.end());
+
     return actual_data;
 
 }

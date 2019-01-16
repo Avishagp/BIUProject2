@@ -30,6 +30,8 @@ public:
      * @param solution The solution.
      */
     virtual void saveSolution(std::string problem, std::string solution) = 0;
+
+    virtual ~CacheManager(){};
 };
 
 

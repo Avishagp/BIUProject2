@@ -70,6 +70,11 @@ SearchableMatrix::SearchableMatrix(std::string maze, std::string start, std::str
     this->goal  = this->stateMatrix.at(goal_i).at(goal_j);
 }
 
+/**
+ * Returns all the possible moves from a State.
+ * @param s The state to move from.
+ * @return A vector of States.
+ */
 std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(State<std::pair<int, int>>* s) {
 
     std::vector<State<std::pair<int, int>>*> result;
@@ -135,25 +140,6 @@ std::vector<State<std::pair<int, int>>*> SearchableMatrix::getAllPossibleStates(
     }
 
     return result;
-}
-
-void SearchableMatrix::addRowToMaze(std::string newRow) {
-
-    std::vector<int> rowToAdd;
-
-    /* A stream to parse with. */
-    std::stringstream lineParser;
-    lineParser.str(newRow);
-
-    /* Splitting the date to elements. */
-    while (lineParser.good()) {
-        std::string temp;
-        std::getline(lineParser, temp, ',');
-        rowToAdd.push_back(std::stoi(temp));
-    }
-
-    lineParser.clear();
-    this->mazeMatrix.push_back(rowToAdd);
 }
 
 State<std::pair<int, int>> *SearchableMatrix::getInitialState() {

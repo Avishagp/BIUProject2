@@ -128,6 +128,8 @@ public:
         return current->getCost() + papa->getCost();
     }
 
+    ~BestFirstSearch() override {};
+
 };
 
 

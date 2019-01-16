@@ -68,14 +68,6 @@ public:
     }
 
     /**
-     * Return's the multiset size.
-     * @return
-     */
-    int PriorityQueueSize() {
-        return this->priorityQueue.size();
-    }
-
-    /**
      * The search method, pure virtual.
      * @param searchable VIRTUAL
      * @return VIRTUAL
@@ -89,6 +81,8 @@ public:
     int getNumberOfNodesEvaluated() override {
         return this->numberOfNodesEvaluated;
     }
+
+    ~PQSearcher() override {};
 
 };
 

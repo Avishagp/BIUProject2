@@ -1,6 +1,10 @@
 
 #include "MyClientHandler.h"
 
+/**
+ * Handle the client we connected with.
+ * @param socket_id The socket we connected through.
+ */
 void MyClientHandler::handleClient(int socket_id) {
 
     /* Hold's the parameters we need for solver. */
@@ -16,6 +20,9 @@ void MyClientHandler::handleClient(int socket_id) {
 
     /* Reading from client. */
     data = Read(socket_id);
+    if (data.empty()) {
+        return;
+    }
 
     /* Parsing data */
     std::string line;
@@ -50,8 +57,7 @@ void MyClientHandler::handleClient(int socket_id) {
                                 "," +
                                 std::to_string(goal_pos_hash);
 
-    /* Locking to prevent file corruption. */
-    mutexxxx.lock();
+    mutex.lock(); /* Locking mutex. */
 
     std::string result;
     if (this->cacheManager->isSolutionExists(problem_text)) {
@@ -64,14 +70,19 @@ void MyClientHandler::handleClient(int socket_id) {
             State<std::pair<int,int>>* path = this->solver->solveProblem(searchable);
             result = GetPath(path);
 
+            /* Deleting saved data. */
+            delete(searchable);
+
             // Saving.
             this->cacheManager->saveSolution(problem_text, result);
 
-        } catch (std::exception e) {
+        } catch (std::exception &e) {
             perror("Search failure.\n");
-            exit(1);
+            mutex.unlock();
+            return;
         }
     }
+    mutex.unlock(); /* Unlock mutex. */
 
     // Writing solution.
     result += '\n';
@@ -79,26 +90,18 @@ void MyClientHandler::handleClient(int socket_id) {
 
     if (n < 0) {
         perror("ERROR writing to socket");
-        exit(1);
+        return;
     }
-    mutexxxx.unlock();
+
 
     close(socket_id);
 }
 
-int MyClientHandler::CountCharsInString(std::string str, char ch) {
-
-    int number_of_commas = 0;
-
-    for(char current_char : str) {
-        if (current_char == ch) {
-            number_of_commas++;
-        }
-    }
-
-    return number_of_commas+1;
-}
-
+/**
+ * Get solution and parse it to string of directions.
+ * @param pathEnd The last State in the path.
+ * @return string of directions.
+ */
 std::string MyClientHandler::GetPath(State<std::pair<int, int>>* pathEnd) {
 
     State<std::pair<int,int>>* current = pathEnd;
@@ -124,6 +127,11 @@ std::string MyClientHandler::GetPath(State<std::pair<int, int>>* pathEnd) {
     return result;
 }
 
+/**
+ * Read's data from client.
+ * @param socket_id The socket we connected to.
+ * @return string - The data we got.
+ */
 std::string MyClientHandler::Read(int socket_id) {
 
     bool isEndReached = false;
@@ -143,7 +151,7 @@ std::string MyClientHandler::Read(int socket_id) {
         /* Check for reading failure. */
         if (number_of_bytes_read < 0) {
             perror("ERROR reading from socket");
-            exit(1);
+            return "";
         }
 
         data_read = buffer;
@@ -163,6 +171,11 @@ std::string MyClientHandler::Read(int socket_id) {
 
 }
 
+/**
+ * Returns hash of a string.
+ * @param str The string to get hash for.
+ * @return The hash value.
+ */
 std::size_t MyClientHandler::GetHashOfString(std::string str) {
     return std::hash<std::string>{}(str);
 }

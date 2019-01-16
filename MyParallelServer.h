@@ -14,8 +14,7 @@
 #include "ArgumentsForOpenServer.h"
 
 using namespace server_side;
-static std::mutex mutexxxx;
-//extern pthread_mutex_t global_mutex;
+static std::mutex mutex;
 
 class MyParallelServer : public Server {
 private:

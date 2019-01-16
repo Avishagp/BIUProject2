@@ -25,6 +25,11 @@ public:
      * @return the number of nodes the search evaluated.
      */
     virtual int getNumberOfNodesEvaluated() = 0;
+
+    /**
+     * Destructor.
+     */
+    virtual ~ISearcher() {};
 };
 
 

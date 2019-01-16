@@ -14,18 +14,20 @@
 #include "SearchableMatrix.h"
 #include "MyParallelServer.h"
 
-class MyClientHandler : public ClientHandler{
+class MyClientHandler : public ClientHandler {
+
 private:
+    //// Members:
     Solver<ISearchable<std::pair<int,int>>*,State<std::pair<int,int>>*> *solver;
     CacheManager *cacheManager;
-    int CountCharsInString(std::string, char);
 
+    //// Private Functions:
     std::string GetPath(State<std::pair<int,int>>*);
     std::string Read(int);
     std::size_t GetHashOfString(std::string);
-public:
 
-    /* Constructor. */
+public:
+    //// Constructor:
     MyClientHandler
         (Solver<ISearchable<std::pair<int, int>> *,State<std::pair<int, int>> *> *solver,
          CacheManager *cacheManager) {
@@ -34,6 +36,7 @@ public:
         this->solver = solver;
     }
 
+    //// Public Functions:
     void handleClient(int i) override;
 };
 

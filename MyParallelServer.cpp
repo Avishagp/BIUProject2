@@ -46,15 +46,17 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
     }
 
     bool time_out = false;
+
     /* Now start listening for the clients. */
     while (!time_out) {
 
+        /* Waiting forever for first client only. */
         if (first_client_served) {
             timeval timeout;
-            timeout.tv_sec = 10;
+            timeout.tv_sec = 1;
             timeout.tv_usec = 0;
 
-            ////setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+            setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
         }
 
         listen(sockfd,5);
@@ -63,19 +65,23 @@ void MyParallelServer::open(int port, ClientHandler *clientHandler) {
         /* Accept actual connection from the client */
         newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
 
+        /* Flag we got at least one client served. */
         first_client_served = true;
 
+        /* Checking connection success. */
         if (newsockfd < 0) {
             perror("timeout!");
             time_out = true;
         } else {
 
+            /* If we got a connected client, call handler in new thread. */
             auto args = new ArgumentsForOpenServer(port, clientHandler, newsockfd);
             pthread_t* pthread = new pthread_t;
             this->threads.push_back(pthread);
             pthread_create(pthread, &attr, MyParallelServer::callHandler ,(void*)(args));
         }
     }
+
     /* Free attribute */
     pthread_attr_destroy(&attr);
     stop();
@@ -92,9 +98,6 @@ void MyParallelServer::stop() {
         pthread_join((*(*iterator)), &status);
         free((*iterator));
     }
-
-    this->threads.clear();
-    //pthread_mutex_destroy(&global_mutex);
 }
 
 /**

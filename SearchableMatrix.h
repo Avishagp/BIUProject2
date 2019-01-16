@@ -20,7 +20,6 @@ private:
 
 public:
     SearchableMatrix(std::string,std::string,std::string);
-    void addRowToMaze(std::string);
 
 public:
     State<std::pair<int, int>>* getInitialState() override;

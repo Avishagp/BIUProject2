@@ -19,7 +19,7 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
 
     /* Check of creation succeeded*/
     if (sockfd < 0) {
-        perror("Error opening socket.");
+        //perror("Error opening socket.");
         exit(1);
     }
 
@@ -32,7 +32,7 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
 
     /* Now bind the host address using bind() call.*/
     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("Failed to bind server connection.");
+        //perror("Failed to bind server connection.");
         exit(1);
     }
 
@@ -58,7 +58,7 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
                 std::cout << "timeout!" << std::endl;
                 break;
             } else {
-                perror("ERROR on accept");
+                //perror("ERROR on accept");
                 exit(1);
             }
         }

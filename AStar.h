@@ -42,7 +42,6 @@ public:
 
         return (papa->getTotal_cost_to()          +
                 current->getOriginal_cost()       +
-                //current->getTotal_cost_to()       +
                 current->getDistance_from_start() +
                 DistanceToEnd(current, goal));
     }

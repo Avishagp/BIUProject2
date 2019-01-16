@@ -89,7 +89,7 @@ void MyClientHandler::handleClient(int socket_id) {
             this->cacheManager->saveSolution(problem_text, result);
 
         } catch (std::exception &e) {
-            perror("Search failure.\n");
+            //perror("Search failure.\n");
             mutex.unlock();
             close(socket_id);
             return;
@@ -102,7 +102,7 @@ void MyClientHandler::handleClient(int socket_id) {
     int n = write(socket_id, result.c_str(), (result.length()));
 
     if (n < 0) {
-        perror("ERROR writing to socket");
+        //perror("ERROR writing to socket");
         close(socket_id);
         return;
     }
@@ -164,7 +164,7 @@ std::string MyClientHandler::Read(int socket_id) {
 
         /* Check for reading failure. */
         if (number_of_bytes_read < 0) {
-            perror("ERROR reading from socket");
+            //perror("ERROR reading from socket");
             return "";
         }
 

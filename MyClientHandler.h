@@ -13,6 +13,8 @@
 #include "CacheManager.h"
 #include "SearchableMatrix.h"
 #include "MyParallelServer.h"
+#include "SolverToSearcherAdapter.h"
+#include "BestFirstSearch.h"
 
 class MyClientHandler : public ClientHandler {
 

@@ -21,6 +21,7 @@ void MyClientHandler::handleClient(int socket_id) {
     /* Reading from client. */
     data = Read(socket_id);
     if (data.empty()) {
+        close(socket_id);
         return;
     }
 
@@ -66,12 +67,23 @@ void MyClientHandler::handleClient(int socket_id) {
 
         // Solving and saving.
         try {
+
+            /* Creates searcher as a solver. */
+            ISearcher<std::pair<int, int> , State<std::pair<int,int>>*>* searcher;
+            searcher = new BestFirstSearch<std::pair<int, int> , State<std::pair<int,int>>*>;
+            Solver<ISearchable<std::pair<int, int>> *,State<std::pair<int, int>> *> *solver
+                    = new  SolverToSearcherAdapter(searcher);
+
             ISearchable<std::pair<int,int>>* searchable = new SearchableMatrix(maze, start_pos, goal_pos);
-            State<std::pair<int,int>>* path = this->solver->solveProblem(searchable);
+            State<std::pair<int,int>>* path = solver->solveProblem(searchable);
+
+            //State<std::pair<int,int>>* path = this->solver->solveProblem(searchable);
             result = GetPath(path);
 
             /* Deleting saved data. */
             delete(searchable);
+            delete(solver);
+            delete(searcher);
 
             // Saving.
             this->cacheManager->saveSolution(problem_text, result);
@@ -79,6 +91,7 @@ void MyClientHandler::handleClient(int socket_id) {
         } catch (std::exception &e) {
             perror("Search failure.\n");
             mutex.unlock();
+            close(socket_id);
             return;
         }
     }
@@ -90,6 +103,7 @@ void MyClientHandler::handleClient(int socket_id) {
 
     if (n < 0) {
         perror("ERROR writing to socket");
+        close(socket_id);
         return;
     }
 

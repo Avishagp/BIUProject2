@@ -51,8 +51,6 @@ void* MySerialServer::openServer(void* argumentsForOpenServer) {
         /* Accept actual connection from the client */
         newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
 
-        //todo
-
         if (newsockfd < 0) {
             if (errno == EWOULDBLOCK)	{
                 std::cout << "timeout!" << std::endl;
